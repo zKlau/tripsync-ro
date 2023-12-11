@@ -1,7 +1,8 @@
 window.onload = function() {
     add_locations()
+    renderMap()
 }
-
+// cities[0]["coordinates"]
 function add_locations() {
     var capitals = [
         "Alba Iulia", "Arad", "Bacau", "Baia Mare", "Bistrita", "Botosani",
@@ -10,10 +11,10 @@ function add_locations() {
         "Hunedoara", "Iasi", "Miercurea Ciuc", "Oradea", "Piatra Neamt", "Pitesti",
         "Ploiesti", "Ramnicu Valcea", "Resita", "Satu Mare", "Sfantu Gheorghe",
         "Sibiu", "Slatina", "Slobozia", "Suceava", "Targoviste", "Targu Jiu",
-        "Targu Mures", "Timisoara", "Tirgu Mures", "Vaslui", "Zalau"
+        "Timisoara", "Tirgu Mures", "Vaslui", "Zalau"
     ]
     for (let i = 0; i < capitals.length; i++) {
-        $("#locations").append(`<option value="${capitals[i]}">${capitals[i]}</option>`)
+        $("#locations").append(`<option value="${capitals[i]}" data-id="${i}">${capitals[i]}</option>`)
     }
 }
 
