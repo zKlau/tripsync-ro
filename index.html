@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <title>TripSync RO</title>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div>
+        <select name="" id="locations">
+        </select>
+    </div>
+    <div>
+        <select name="" id="weather">
+            <option value="Clear">Clear</option>
+            <option value="Partly Cloudy">Partly Cloudy</option>
+            <option value="Cloudy">Cloudy</option>
+            <option value="Light Rain">Light Rain</option>
+            <option value="Snow">Snow</option>
+        </select>
+    </div>
+    <div>
+        <p>Start Date :</p>
+        <input type="date" name="start-date" id="start-date">
+    </div>
+
+    <div>
+        <p>End Date :</p>
+        <input type="date" name="end-date" id="end-date">
+    </div>
+
+    <button id="send-button" onclick="send_data()">Send</button>
+</body>
+</html>
