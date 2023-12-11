@@ -54,7 +54,6 @@ function renderMap() {
     { name: "Suceava", coordinates: [47.6376, 26.2597] },
     { name: "Targoviste", coordinates: [44.9385, 25.4598] },
     { name: "Targu Jiu", coordinates: [45.0428, 23.2745] },
-    { name: "Targu Mures", coordinates: [46.5480, 24.5577] },
     { name: "Timisoara", coordinates: [45.7489, 21.2087] },
     { name: "Tirgu Mures", coordinates: [46.5407, 24.5560] },
     { name: "Vaslui", coordinates: [46.6333, 27.7333] },

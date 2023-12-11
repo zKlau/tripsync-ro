@@ -21,8 +21,9 @@ function add_locations() {
 function send_data() {
     var start_date = $("#start-date").val()
     var end_date = $("#end-date").val()
-    var location = $("#locations").val()
+    var start_location = $("#start-location").val().replaceAll(" ","+")
+    var end_location = $("#end-location").val().replaceAll(" ","+")
     var weather = $("#weather").val()
-    var url = `/weather=${weather}&location=${location}&start-date=${start_date}&end-date=${end_date}`
+    var url = `/weather=${weather}&start-location=${start_location}&end-location=${end_location}&start-date=${start_date}&end-date=${end_date}`
     console.log(url)
 }
