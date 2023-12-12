@@ -1,48 +1,41 @@
 from flask import Flask, request, json
 from datetime import datetime
 
-# Inițializarea aplicației Flask
 app = Flask(__name__)
 
-# Deschiderea și citirea fișierului JSON
 with open('database/weather_data.json') as f:
     weather_data = json.load(f)
 
 
-# Funcția pentru găsirea unei perioade însorite
-def find_sunny_period(city, original_start, duration):
+def find_preferred_weather_period(city, duration, desired_condition):
     city_weather = weather_data.get(city, [])
     best_period = None
-    max_sunny_days = 0
+    max_days_with_desired_condition = 0
     best_avg_temp = 0
-    best_common_condition = ""
 
     for i in range(len(city_weather) - duration + 1):
         period = city_weather[i:i + duration]
-        sunny_days = sum(1 for day in period if day['weather_condition'] == 'Clear')
+        days_with_desired_condition = sum(1 for day in period if day['weather_condition'] == desired_condition)
         avg_temp = sum(day['temperature'] for day in period) / duration
-        common_condition = max(set(day['weather_condition'] for day in period),
-                               key=lambda cond: sum(day['weather_condition'] == cond for day in period))
 
-        if sunny_days > max_sunny_days or (sunny_days == max_sunny_days and avg_temp > best_avg_temp):
-            max_sunny_days = sunny_days
+        if days_with_desired_condition > max_days_with_desired_condition or (
+                days_with_desired_condition == max_days_with_desired_condition and avg_temp > best_avg_temp):
+            max_days_with_desired_condition = days_with_desired_condition
             best_period = (period[0]['date'], period[-1]['date'])
             best_avg_temp = avg_temp
-            best_common_condition = common_condition
 
-    if best_period and best_period[0] != original_start.strftime("%Y-%m-%d"):
+    if best_period:
         return {
             'start_date': best_period[0],
             'end_date': best_period[1],
             'average_temperature': round(best_avg_temp, 1),
-            'most_common_condition': best_common_condition
+            'desired_condition': desired_condition
         }
     else:
-        return "Nu s-a găsit o perioadă alternativă mai însorită."
+        return "Nu s-a găsit o perioadă alternativă cu condiția meteorologică dorită."
 
 
-# Funcția de analiză a vremii
-def analyze_weather(city, start_date, end_date):
+def analyze_weather(city, start_date, end_date, desired_condition):
     city_weather = weather_data.get(city, [])
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
@@ -63,9 +56,9 @@ def analyze_weather(city, start_date, end_date):
         average_temp = round(total_temp / count, 1)
         most_common_condition = max(weather_conditions, key=weather_conditions.get)
 
-        # Verifică dacă condiția predominantă nu este însorită și caută o perioadă alternativă
-        if most_common_condition != "Clear":
-            alternative_period = find_sunny_period(city, start_date, duration)
+        # Verifică dacă condiția predominantă nu este cea dorită și caută o perioadă alternativă
+        if most_common_condition != desired_condition:
+            alternative_period = find_preferred_weather_period(city, duration, desired_condition)
             return {
                 'average_temperature': average_temp,
                 'most_common_condition': most_common_condition,
@@ -80,7 +73,6 @@ def analyze_weather(city, start_date, end_date):
         return None
 
 
-# Rutele Flask
 @app.route('/')
 def home():
     return 'Bine ai venit la TripSyncRO!'
@@ -88,20 +80,24 @@ def home():
 
 @app.route('/weather-analysis')
 def get_weather_analysis():
-    city = request.args.get('city')
+    city = request.args.get('city')  # Locația pentru care se calculează datele
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
+    departure_location = request.args.get('departure_location')  # Locația de plecare
+    weather_condition = request.args.get('weather_condition')
 
-    if not city or not start_date or not end_date:
-        return "Te rog să specifici orașul și perioada (start_date, end_date)."
+    if not city or not start_date or not end_date or not departure_location or not weather_condition:
+        return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția "
+                "meteorologică dorită.")
 
-    weather_info = analyze_weather(city, start_date, end_date)
+    weather_info = analyze_weather(city, start_date, end_date, weather_condition)
     if weather_info:
+        weather_info['departure_location'] = departure_location  # Adaugă locația de plecare la răspuns
+        weather_info['destination_city'] = city  # Adaugă orașul destinație la răspuns
         return json.dumps(weather_info)
     else:
-        return "Nu s-au găsit date pentru perioada specificată."
+        return "Nu s-au găsit date pentru perioada sau condiția meteorologică specificată."
 
 
-# Punctul de start pentru aplicație
 if __name__ == '__main__':
     app.run(debug=True)
