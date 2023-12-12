@@ -1,7 +1,19 @@
+var selectingCity = 0;
 window.onload = function() {
     add_locations()
     renderMap()
 }
+
+function formatDate(inputDate) {
+    const dateComponents = inputDate.split('/');
+    const formattedDate = new Date(`${dateComponents[2]}-${dateComponents[0]}-${dateComponents[1]}`);
+    const result = formattedDate.toISOString().split('T')[0];
+    return result;
+}
+function setCity(type) {
+    selectingCity = type
+}
+
 // cities[0]["coordinates"]
 function add_locations() {
     var capitals = [
@@ -19,11 +31,13 @@ function add_locations() {
 }
 
 function send_data() {
-    var start_date = $("#start-date").val()
-    var end_date = $("#end-date").val()
+    var date = $('#daterange').data('daterangepicker')
+    var start_date = date.startDate.format('YYYY-MM-DD')
+    var end_date = date.endDate.format('YYYY-MM-DD')
     var start_location = $("#start-location").val().replaceAll(" ","+")
     var end_location = $("#end-location").val().replaceAll(" ","+")
     var weather = $("#weather").val()
-    var url = `/weather=${weather}&start-location=${start_location}&end-location=${end_location}&start-date=${start_date}&end-date=${end_date}`
+   
+    var url = `/weather-analysis?weather=${weather}&start-location=${start_location}&city=${end_location}&start-date=${start_date}&end-date=${end_date}`
     console.log(url)
 }

@@ -63,7 +63,19 @@ function renderMap() {
 
    cities.forEach(function (city) {
     var marker = L.marker(city.coordinates, { icon: createCustomMarker(city.name) }).addTo(map);
-    marker.bindPopup(city.name);
+    
+    marker.bindPopup("<b>" + city.name + "</b>").on('click', function () {
+        var index = cities.findIndex(function(cty) {
+            return cty.name === city.name;
+        });
+        if(selectingCity == 0) {
+            $("#start-location").val(city.name)
+        } else {
+            $("#end-location").val(city.name)
+        }
+        //alert("You clicked on " + city.name + " " + index + " " + selectingCity);
+        // You can customize the interaction here, for example, open a modal or show additional information.
+    });
     });
 
     function createCustomMarker(cityName) {
