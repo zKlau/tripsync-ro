@@ -1,0 +1,23 @@
+#map {
+    height: 500px;
+    width: 80%;
+}
+#toggle-instructions {
+    position: absolute;
+    top: 100px;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    cursor: pointer;
+}
+.custom-marker {
+    font-size: larger;
+    width: 24px;
+    height: 24px;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: center;
+    cursor: pointer;
+    color: black
+}

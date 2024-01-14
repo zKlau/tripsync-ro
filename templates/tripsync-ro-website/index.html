@@ -1,0 +1,69 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/jquery-ui-1.13.2.custom/jquery-ui.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/jquery-ui-1.13.2.custom/jquery-ui.css') }}">
+    <title>TripSync RO</title>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Include Leaflet Routing Machine JavaScript -->
+
+    <script>
+       $(function() {
+      $('input[name="daterange"]').daterangepicker({
+        opens: 'left'
+      }, function(start, end, label) {
+        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+      });
+    });
+    var end_loc = "{{departure_location}}"
+    var start_loc = "{{destination_city}}"
+    var start_date = "{{start_date}}"
+    var end_date = "{{end_date}}"
+    
+    //var d = $('#daterange').data('daterangepicker')
+    // d.endDate.format('YYYY-MM-DD')
+        </script>
+</head>
+<body>
+    <div>
+        <select name="" class="locations" id="start-location">
+        </select>
+        <select name="" class="locations" id="end-location">
+        </select>
+        <button onclick="setCity(0)">Select start location</button>
+        <button onclick="setCity(1)">Select destination</button>
+    </div>
+    <div>
+        <select name="" id="weather">
+            <option value="Clear" >Clear</option>
+            <option value="Partly Cloudy">Partly Cloudy</option>
+            <option value="Cloudy">Cloudy</option>
+            <option value="Light Rain">Light Rain</option>
+            <option value="Snow">Snow</option>
+        </select>
+    </div>
+    <div>
+        <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
+    </div>
+    <div id="map"></div>
+
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+
+    <button id="send-button" onclick="send_data()">Send</button>
+<script>
+</script>
+</body>
+</html>
