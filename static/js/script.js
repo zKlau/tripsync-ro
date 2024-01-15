@@ -2,7 +2,9 @@ var selectingCity = 0;
 window.onload = function() {
     add_locations()
     renderMap()
-showPath(start_loc,end_loc)
+    showPath(start_loc,end_loc)
+    $("#start-location").val(start_loc);
+    $("#end-location").val(end_loc);
 
 }
 

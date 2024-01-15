@@ -76,7 +76,7 @@ def analyze_weather(city, start_date, end_date, desired_condition):
 
 @app.route('/')
 def home():
-    return 'Bine ai venit la TripSyncRO!'
+    return render_template('/tripsync-ro-website/index.html')
 
 
 @app.route('/weather-analysis')
@@ -88,8 +88,8 @@ def get_weather_analysis():
     weather_condition = request.args.get('weather_condition')
     print(city,start_date,end_date,departure_location,weather_condition)
     if not city or not start_date or not end_date or not departure_location or not weather_condition:
-        return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția "
-                "meteorologică dorită.")
+        return render_template('/tripsync-ro-website/index.html')
+        #return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția ""meteorologică dorită.")
 
     weather_info = analyze_weather(city, start_date, end_date, weather_condition)
     if weather_info:
