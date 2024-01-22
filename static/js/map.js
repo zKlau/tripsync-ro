@@ -14,7 +14,8 @@ function renderMap() {
    });
 
    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-       attribution: '© TripSync RO'
+       attribution: '© TripSync RO',
+       minZoom: 6
    }).addTo(map);
 
    cities = [

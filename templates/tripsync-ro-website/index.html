@@ -15,6 +15,10 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4a573ab062.js" crossorigin="anonymous"></script>
     <!-- Include Leaflet Routing Machine JavaScript -->
 
     <script>
@@ -36,44 +40,111 @@
         </script>
 </head>
 <body>
-
     <div id="header">
-        <h1 id="title">TripSync RO</h1>
+        <h1 id="title">TripSync <span id="title-r">R</span><span id="title-o">O</span></h1>
         <h3 id="subtitle">Cu noi, va ve-ti gasiti perioada perfecta oentru o vacanta de neuitat!</h3>
         <div id="control">
             <div>
-                <select name="" class="locations" id="start-location">
-                </select>
-                <select name="" class="locations" id="end-location">
-                </select>
+                <div>
+                    <i class="fa-solid fa-house">
+                        <select name="" class="locations" id="start-location"></select>
+                    </i>
+                </div>
+                <div>
+                    <i class="fa-solid fa-location-dot">
+                    <select name="" class="locations" id="end-location"></select>
+                    </i>
+                </div>
+               
                 <!--<button onclick="setCity(0)">Select start location</button>
                 <button onclick="setCity(1)">Select destination</button>
                     -->
-                <select name="" id="weather">
-                    <option value="Clear" >Clear</option>
-                    <option value="Partly Cloudy">Partly Cloudy</option>
-                    <option value="Cloudy">Cloudy</option>
-                    <option value="Light Rain">Light Rain</option>
-                    <option value="Snow">Snow</option>
-                </select>
-                <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
+                <div>
+                    <i class="fa-solid fa-cloud-sun">
+                        <select name="" id="weather">
+                            <option value="Clear" >Clear</option>
+                            <option value="Partly Cloudy">Partly Cloudy</option>
+                            <option value="Cloudy">Cloudy</option>
+                            <option value="Light Rain">Light Rain</option>
+                            <option value="Snow">Snow</option>
+                        </select>
+                    </i>
+                </div>
+                
+                <div>
+                    <i class="fa-regular fa-calendar-days">
+                        <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
+                    </i>
+                </div>
+                
+                <button id="send-button" onclick="send_data()" class="button">Cauta</button>
             </div>
         </div>
     </div>
     <div id="content">
-        
-        
         <div id="map"></div>
-    
         <!-- Include Leaflet JavaScript -->
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
-    
-        <h3>Perioada recomandata este din {{start_date}} pana in {{end_date}}</h3>
-        <button id="send-button" onclick="send_data()">Send</button>
+        <!--<h3>Perioada recomandata este din {{start_date}} pana in {{end_date}}</h3>-->
     </div>
-    
+    <div>
+    </div>
+    <div id="footer">
+        <table class="table">
+            <thead class="thead">
+                <tr class="tr">
+                    <th class="th"></th>
+                    <th class="th"> Linkuri utile </th>
+                    <th class="th">Despre noi</th>
+                    <th class="th"></th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"><a href="http://zklau.com">Informatii</a></td>
+                    <td class="td">Facem parte din Universitatea</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td">"Lucian Blaga" din Sibiu si acest</td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td"> proiect a fost realizat de: Claudiu</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td">Padure, Victor Paraschiv, Valentin</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td"> Marian Mocanu, Deliana Fatan</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td id="contact" class="td">Contact</td>
+                    <td class="td"><i class="fa-solid fa-envelope"></i> contact@tripsync.ro</td>
+                    <td class="td"><i class="fa-solid fa-location-dot"></i> Adresa: Str. Ion Raţiu, Nr.5-7,Sibiu, 550012 Sibiu, România </td>
+                    <td class="td"></td>
+
+                </tr>
+               
+              </tbody>
+        </table>
+    </div>
+    <div id="footer_container">
+        <img src="{{ url_for('static', filename='images/footer2.svg') }}" id="footer_image" alt="">
+    </div>
 <script>
 </script>
 </body>
