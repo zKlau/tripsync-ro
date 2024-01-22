@@ -21,3 +21,39 @@
     cursor: pointer;
     color: black
 }
+
+html {
+    margin: 0 0 0 0;
+}
+#header {
+    background-color: rgb(105, 208, 105);
+    margin-top: -1.5rem;
+    height: 120px;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+}
+#content {
+    padding-top: 2rem;
+}
+#control {
+    background-color: yellow;
+    align-items: center;
+}
+#title {
+    font-size: 32px;
+    padding-top: 2rem;
+}
+
+#subtitle {
+    font-size: 16px;
+    padding-top: 1rem;
+}
+#title, #subtitle {
+    margin-left: 2rem;
+    line-height: 0px;
+}
+#content {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    align-items: center;
+}

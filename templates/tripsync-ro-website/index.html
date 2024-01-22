@@ -36,35 +36,44 @@
         </script>
 </head>
 <body>
-    <div>
-        <select name="" class="locations" id="start-location">
-        </select>
-        <select name="" class="locations" id="end-location">
-        </select>
-        <button onclick="setCity(0)">Select start location</button>
-        <button onclick="setCity(1)">Select destination</button>
-    </div>
-    <div>
-        <select name="" id="weather">
-            <option value="Clear" >Clear</option>
-            <option value="Partly Cloudy">Partly Cloudy</option>
-            <option value="Cloudy">Cloudy</option>
-            <option value="Light Rain">Light Rain</option>
-            <option value="Snow">Snow</option>
-        </select>
-    </div>
-    <div>
-        <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
-    </div>
-    <div id="map"></div>
 
-    <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <div id="header">
+        <h1 id="title">TripSync RO</h1>
+        <h3 id="subtitle">Cu noi, va ve-ti gasiti perioada perfecta oentru o vacanta de neuitat!</h3>
+        <div id="control">
+            <div>
+                <select name="" class="locations" id="start-location">
+                </select>
+                <select name="" class="locations" id="end-location">
+                </select>
+                <!--<button onclick="setCity(0)">Select start location</button>
+                <button onclick="setCity(1)">Select destination</button>
+                    -->
+                <select name="" id="weather">
+                    <option value="Clear" >Clear</option>
+                    <option value="Partly Cloudy">Partly Cloudy</option>
+                    <option value="Cloudy">Cloudy</option>
+                    <option value="Light Rain">Light Rain</option>
+                    <option value="Snow">Snow</option>
+                </select>
+                <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        
+        
+        <div id="map"></div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
-
-    <h3>Perioada recomandata este din {{start_date}} pana in {{end_date}}</h3>
-    <button id="send-button" onclick="send_data()">Send</button>
+        <!-- Include Leaflet JavaScript -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+    
+        <h3>Perioada recomandata este din {{start_date}} pana in {{end_date}}</h3>
+        <button id="send-button" onclick="send_data()">Send</button>
+    </div>
+    
 <script>
 </script>
 </body>
