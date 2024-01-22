@@ -1,24 +1,173 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/jquery-ui-1.13.2.custom/jquery-ui.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/jquery-ui-1.13.2.custom/jquery-ui.css') }}">
+    <title>TripSync RO</title>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/date-styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-</head>
-<body>
-    <input type="text" name="daterange" value="12/12/2023 - 29/01/2024" />
-</body>
-<script>
-    $(function() {
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4a573ab062.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+   
+    <!-- Include Leaflet Routing Machine JavaScript -->
+
+    <script>
+       $(function() {
       $('input[name="daterange"]').daterangepicker({
         opens: 'left'
       }, function(start, end, label) {
         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
       });
     });
-    </script>   
+    var end_loc = "{{departure_location}}"
+    var start_loc = "{{destination_city}}"
+    var start_date = "{{start_date}}"
+    var end_date = "{{end_date}}"
+    var hotels_list = {{ hotels|tojson|safe }};
+    console.log(start_loc)
+    var startDate = "{{start_date}}"
+    var endDate = "{{end_date}}"
+    
+    //var d = $('#daterange').data('daterangepicker')
+    // d.endDate.format('YYYY-MM-DD')
+        </script>
+</head>
+<body>
+    <div id="header">
+        <h1 id="title">TripSync <span id="title-r">R</span><span id="title-o">O</span></h1>
+        <h3 id="subtitle">Cu noi, vă veți găsi perioada perfectă pentru o vacanță de neuitat!</h3>
+        <div id="control">
+            <div>
+                <div>
+                    <i class="fa-solid fa-house">
+                        <select name="" class="locations" id="start-location"></select>
+                    </i>
+                </div>
+                <div>
+                    <i class="fa-solid fa-location-dot">
+                    <select name="" class="locations" id="end-location"></select>
+                    </i>
+                </div>
+               
+                <!--<button onclick="setCity(0)">Select start location</button>
+                <button onclick="setCity(1)">Select destination</button>
+                    -->
+                <div>
+                    <i class="fa-solid fa-cloud-sun">
+                        <select name="" id="weather">
+                            <option value="Clear" >Clear</option>
+                            <option value="Partly Cloudy">Partly Cloudy</option>
+                            <option value="Cloudy">Cloudy</option>
+                            <option value="Light Rain">Light Rain</option>
+                            <option value="Snow">Snow</option>
+                        </select>
+                    </i>
+                </div>
+                
+                <div>
+                    <i class="fa-regular fa-calendar-days">
+                        <input type="text" name="daterange" id="daterange" value="12/12/2023 - 01/01/2024" />
+                    </i>
+                </div>
+                
+                <button id="send-button" onclick="send_data()" class="button">Cauta</button>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Add this before the closing </body> tag -->
+
+<style>
+  /* Add this in the head section or in your existing CSS file */
+  .highlight {
+      background-color: #a0d5fa; /* Set your desired highlight color */
+  }
+</style>
+
+    <div id="content">
+
+
+      <div id="map"></div>
+      <input type="text" id="datePicker" readonly hidden>
+        <div id="hotels">
+        </div>
+        
+        <!-- Include Leaflet JavaScript -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+        <!--<h3>Perioada recomandata este din {{start_date}} pana in {{end_date}}</h3>-->
+    </div>
+    <div>
+    </div>
+    <div id="footer">
+        <table class="table">
+            <thead class="thead">
+                <tr class="tr">
+                    <th class="th"></th>
+                    <th class="th">Contact</th>
+                    <th class="th">Despre noi</th>
+                    <th class="th"></th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"><i class="fa-solid fa-envelope"></i> contact@tripsync.ro</td>
+                    <td class="td">Facem parte din Universitatea</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"><i class="fa-solid fa-location-dot"></i> Adresa: Str. Ion Raţiu, Nr.5-7,</td>
+                    <td class="td">"Lucian Blaga" din Sibiu si acest</td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td">Sibiu, 550012 Sibiu, România </td>
+                    <td class="td"> proiect a fost realizat de: Claudiu</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td">Padure, Victor Paraschiv, Valentin</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td"> Marian Mocanu, Deliana Fatan</td>
+                    <td class="td"></td>
+                </tr>
+                <tr class="tr">
+                    <td id="contact" class="td"></td>
+                    <td class="td"></td>
+                    <td class="td"></td>
+                    <td class="td"></td>
+
+                </tr>
+               
+              </tbody>
+        </table>
+    </div>
+    <div id="footer_copyright">
+        © 2024 Toate drepturile rezervate
+    </div>
+<script>
+</script>
+</body>
 </html>

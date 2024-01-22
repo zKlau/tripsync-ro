@@ -3,8 +3,45 @@ window.onload = function() {
     add_locations()
     renderMap()
     showPath(start_loc,end_loc)
-    $("#start-location").val(start_loc);
-    $("#end-location").val(end_loc);
+    $("#start-location").val(end_loc);
+    $("#end-location").val(start_loc);
+
+
+    hotels_list.forEach(function(hotel) {
+        var hotelItem = `
+            <div class="hotel-item">
+                <img src="${hotel[2]}" alt="Hotel Photo" width="100" height="100">
+                <div class="description">
+                    <h3>${hotel[0]}</h3>
+                    <p></p>
+                </div>
+                <div class="price">
+                    $${hotel[1]} per night
+                </div>
+            </div>
+        `;
+        $('#hotels').append(hotelItem);
+  });
+
+
+    
+
+      flatpickr('#datePicker', {
+            mode: 'range',
+            inline: true,
+            defaultDate: [startDate, endDate],
+            onChange: function (selectedDates, dateStr, instance) {
+                console.log("Selected dates: " + dateStr);
+            },
+            disable: [
+                function (date) {
+                    return date < new Date(startDate);
+                },
+                function (date) {
+                    return date > new Date(endDate);
+                }
+            ],
+        });
 
 }
 
@@ -41,7 +78,7 @@ function send_data() {
     var start_location = $("#start-location").val().replaceAll(" ","+")
     var end_location = $("#end-location").val().replaceAll(" ","+")
     var weather = $("#weather").val()
-    var url = `/weather-analysis?weather_condition=${weather}&city=${start_location}&departure_location=${end_location}&start_date=${start_date}&end_date=${end_date}`
+    var url = `/weather-analysis?weather_condition=${weather}&city=${end_location}&departure_location=${start_location}&start_date=${start_date}&end_date=${end_date}`
     console.log(url)
     location.href = url
 }

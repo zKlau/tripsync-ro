@@ -1,6 +1,6 @@
 from flask import Flask, request, json, render_template
 from datetime import datetime
-
+import hotels as hotels
 app = Flask(__name__)
 
 with open('database/weather_data.json') as f:
@@ -90,11 +90,12 @@ def get_weather_analysis():
     if not city or not start_date or not end_date or not departure_location or not weather_condition:
         return render_template('/tripsync-ro-website/index.html')
         #return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția ""meteorologică dorită.")
-
+    
     weather_info = analyze_weather(city, start_date, end_date, weather_condition)
     if weather_info:
         weather_info['departure_location'] = departure_location  # Adaugă locația de plecare la răspuns
         weather_info['destination_city'] = city  # Adaugă orașul destinație la răspuns
+        print(weather_info['destination_city'])
         if "alternative_period" in weather_info:
             alt_period=weather_info["alternative_period"]
             start_date=weather_info['alternative_period']['start_date']
@@ -103,7 +104,8 @@ def get_weather_analysis():
             alt_period = None
             start_date = None
             end_date = None
-        return render_template('/tripsync-ro-website/index.html', alternative_period=alt_period,departure_location=weather_info['departure_location'], destination_city=weather_info['destination_city'],start_date=start_date,end_date=end_date)
+        
+        return render_template('/tripsync-ro-website/date.html',hotels=hotels.get_data(city),alternative_period=alt_period,departure_location=weather_info['departure_location'], destination_city=weather_info['destination_city'],start_date=start_date,end_date=end_date)
     else:
         return "Nu s-au găsit date pentru perioada sau condiția meteorologică specificată."
 
