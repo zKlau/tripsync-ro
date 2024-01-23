@@ -6,22 +6,23 @@ window.onload = function() {
     $("#start-location").val(end_loc);
     $("#end-location").val(start_loc);
 
-
-    hotels_list.forEach(function(hotel) {
-        var hotelItem = `
-            <div class="hotel-item">
-                <img src="${hotel[2]}" alt="Hotel Photo" width="100" height="100">
-                <div class="description">
-                    <h3>${hotel[0]}</h3>
-                    <p></p>
+    if (hotels_list != null) {
+        hotels_list.forEach(function(hotel) {
+            var hotelItem = `
+                <div class="hotel-item">
+                    <img src="${hotel[2]}" alt="Hotel Photo" width="100" height="100">
+                    <div class="description">
+                        <h3>${hotel[0]}</h3>
+                        <p></p>
+                    </div>
+                    <div class="price">
+                        $${hotel[1]} per night
+                    </div>
                 </div>
-                <div class="price">
-                    $${hotel[1]} per night
-                </div>
-            </div>
-        `;
-        $('#hotels').append(hotelItem);
-  });
+            `;
+            $('#hotels').append(hotelItem);
+    });
+}
 
 
     

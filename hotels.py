@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 import time
+import numpy as np
 import re
 
 
@@ -16,7 +17,7 @@ def get_data(oras):
     browser = webdriver.Firefox()#options=options)
 
     browser.get(f'https://www.hotels.com/Hotel-Search?destination={oras}')
-    browser.implicitly_wait(20)
+   # browser.implicitly_wait(20)
 
     print("Website loaded")
     for _ in range(1):
@@ -28,30 +29,39 @@ def get_data(oras):
         property_listing_results = browser.find_element(By.XPATH, '//*[@data-stid="property-listing-results"]')
         child_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@class, "uitk-heading")]')
         price_summary_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@data-test-id, "price-summary-message-line") and contains(., "The price is €")]')
+        print(child_elements)
+        if np.size(price_summary_elements) <= 0:
+            print("no prices found")
+            price_summary_elements = [0] * len(child_elements)
+            for i in range(len(price_summary_elements)):
+                price_summary_elements[i] = None
+
+        #print(price_summary_elements)
         hidden_text_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@class, "uitk-text uitk-type-300 uitk-text-default-theme is-visually-hidden")]')
         image_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@class, "uitk-gallery-carousel-item uitk-gallery-carousel-item-current")]//img[contains(@class, "uitk-image-media")]')
-
         for child_element, price_summary_element, image in zip(child_elements[1:], price_summary_elements, image_elements):
             child_text = child_element.text
-            
+            print("The price is ", price_summary_element)
             image_src = image.get_attribute('src')
             try:
-                numeric_values = re.findall(r'\d+', price_summary_element.text)
-                if numeric_values:
-                    numeric_value = numeric_values[0]
+                if price_summary_element != None:
+                    print("vales")
+                    numeric_values = re.findall(r'\d+', price_summary_element.text)
+                    if numeric_values:
+                        numeric_value = numeric_values[0]
+                    else:
+                        numeric_value = "No numeric value found"
                 else:
-                    numeric_value = "No numeric value found"
+                    numeric_value = 0
             except Exception as price_summary_exception:
                 numeric_value = "No price summary found"
 
-            pairs_list.append([child_text, numeric_value,image_src])
+            pairs_list.append([child_text.encode("utf-8"), numeric_value,image_src.encode("utf-8")])
 
     except Exception as e:
         print(f"Unable to find and retrieve HTML content: {e}")
 
-    for pair in pairs_list:
-        print(pair)
+    #for pair in pairs_list:
+        #print(pair)
     browser.quit()
     return pairs_list
-    
-

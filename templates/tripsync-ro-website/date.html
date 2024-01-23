@@ -101,7 +101,7 @@
 
 
       <div id="map"></div>
-      <input type="text" id="datePicker" readonly hidden>
+      <div id="date_range"></div>
         <div id="hotels">
         </div>
         
@@ -168,6 +168,13 @@
         © 2024 Toate drepturile rezervate
     </div>
 <script>
+    flatpickr("#date_range", {
+        mode: "range",
+        inline: true,
+        defaultDate: [startDate, endDate],
+        dateFormat: "Y-m-d",
+        
+    })
 </script>
 </body>
 </html>
