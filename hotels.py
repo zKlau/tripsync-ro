@@ -29,7 +29,6 @@ def get_data(oras):
         property_listing_results = browser.find_element(By.XPATH, '//*[@data-stid="property-listing-results"]')
         child_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@class, "uitk-heading")]')
         price_summary_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@data-test-id, "price-summary-message-line") and contains(., "The price is €")]')
-        print(child_elements)
         if np.size(price_summary_elements) <= 0:
             print("no prices found")
             price_summary_elements = [0] * len(child_elements)
@@ -41,7 +40,6 @@ def get_data(oras):
         image_elements = property_listing_results.find_elements(By.XPATH, './/*[contains(@class, "uitk-gallery-carousel-item uitk-gallery-carousel-item-current")]//img[contains(@class, "uitk-image-media")]')
         for child_element, price_summary_element, image in zip(child_elements[1:], price_summary_elements, image_elements):
             child_text = child_element.text
-            print("The price is ", price_summary_element)
             image_src = image.get_attribute('src')
             try:
                 if price_summary_element != None:
@@ -56,7 +54,7 @@ def get_data(oras):
             except Exception as price_summary_exception:
                 numeric_value = "No price summary found"
 
-            pairs_list.append([child_text.encode("utf-8"), numeric_value,image_src.encode("utf-8")])
+            pairs_list.append([child_text, numeric_value,image_src])
 
     except Exception as e:
         print(f"Unable to find and retrieve HTML content: {e}")
@@ -65,3 +63,4 @@ def get_data(oras):
         #print(pair)
     browser.quit()
     return pairs_list
+#print(type(get_data("Cluj-Napoca")))

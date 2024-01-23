@@ -1,6 +1,8 @@
 from flask import Flask, request, json, render_template
 from datetime import datetime
 import hotels as hotels_data
+from flask import jsonify
+import json
 app = Flask(__name__)
 
 with open('database/weather_data.json') as f:
