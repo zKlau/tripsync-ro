@@ -1,6 +1,8 @@
 var map
 var control
 var cities
+var distance
+var time
 function renderMap() {
   map = L.map('map').setView([45.9432, 24.9668], 6); // Coordonatele din centru + zoom level
 
@@ -91,7 +93,15 @@ function renderMap() {
         routeWhileDragging: true,
         show: false 
     }).addTo(map);
+    control.on('routesfound', function (event) {
+        var route = event.routes[0];
+        distance = route.summary.totalDistance / 1000; // Convert meters to kilometers
+        time = route.summary.totalTime / 3600; // Convert seconds to hours
 
+        $("#time").text("Timp pe drum : " + time.toFixed(2) + " ore")
+        $("#distance").text("Distanta parcursa : " + distance.toFixed(2) + " km")
+        //alert("Distance: " + distance.toFixed(2) + " km\nTime: " + time.toFixed(2) + " hours");
+    });
     var toggleButton = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
         toggleButton.innerHTML = '<button id="toggle-instructions" onclick="toggleInstructions()">Hide</button>';
         document.getElementById('map').appendChild(toggleButton);
@@ -111,6 +121,6 @@ function showPath(start,finish) {
         L.latLng(cities.filter(e => e.name == start)[0].coordinates),
         L.latLng(cities.filter(e => e.name == finish)[0].coordinates)
     ]);
-console.log(cities.filter(e => e.name == start)[0].coordinates[0])
+    console.log(cities.filter(e => e.name == start)[0].coordinates[0])
     control.route();
 }

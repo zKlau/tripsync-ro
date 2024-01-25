@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='js/jquery-ui-1.13.2.custom/jquery-ui.css') }}">
     <title>TripSync RO</title>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/date-styles.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="{{ url_for('static', filename='js/map.js') }}"></script>
@@ -101,11 +102,13 @@
     <div id="content">
 
 
-      <div id="map"></div>
-      <div id="date_range"></div>
-        <div id="hotels">
+        <div id="map" ></div>
+        <div id="date_range" ></div>
+        <div id="hotels"></div>
+        <div id="travel_stats">
+            <div><p id="distance"></p></div>
+            <div><p id="time"></p></div>
         </div>
-        
         <!-- Include Leaflet JavaScript -->
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         
@@ -176,6 +179,7 @@
         dateFormat: "Y-m-d",
         
     })
+
 </script>
 </body>
 </html>

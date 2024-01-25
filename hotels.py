@@ -12,9 +12,9 @@ import re
 def get_data(oras):
     pairs_list = []
     print("Starting")
-    #options = Options() 
-    #options.add_argument("") 
-    browser = webdriver.Firefox()#options=options)
+    options = Options() 
+    options.add_argument("-headless") 
+    browser = webdriver.Firefox(options=options)
 
     browser.get(f'https://www.hotels.com/Hotel-Search?destination={oras}')
    # browser.implicitly_wait(20)

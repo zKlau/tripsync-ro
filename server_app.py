@@ -102,6 +102,7 @@ def get_weather_analysis():
             alt_period=weather_info["alternative_period"]
             start_date=weather_info['alternative_period']['start_date']
             end_date=weather_info['alternative_period']['end_date']
+            #hotels = None
             hotels = hotels_data.get_data(city)
         else:
             alt_period = None

@@ -1,6 +1,5 @@
 #map {
     height: 500px;
-    width: 50%;
     border: 5px solid yellow;
 }
 html {
@@ -209,4 +208,53 @@ select,#daterange {
     /* You can adjust the styles based on your preferences */
     border: 1px solid #ccc; /* Optional: Add border for better visibility */
     padding: 10px; /* Optional: Add padding for better spacing */
+}
+
+
+
+#map {
+    grid-row: 1/span 1; /* Map takes up two rows */
+    grid-column: 1/span 1; /* Map takes up two columns */
+}
+
+.inline {
+    grid-row: 1; /* Date range in the third row */
+    grid-column: 2; /* Date range takes up two columns */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#hotels {
+    grid-row: 2 / span 1; /* Hotels in the second row */
+    grid-column: 1/ span 1; /* Hotels in the second column */
+}
+
+#content {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+#time,#distance {
+    background-color: yellow;
+    padding: 10px;
+    font-weight: bold;
+    border: 5px solid #33cc33;
+    border-radius: 5px;
+}
+
+#travel_stats {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    grid-column: 2 / span 1;
+    grid-row: 2/span 1;
+}
+
+.hotel-item {
+    border: 3px solid #33cc33;
+    padding: 4px;
 }
