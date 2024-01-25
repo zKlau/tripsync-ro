@@ -228,7 +228,7 @@ select,#daterange {
 
 #hotels {
     grid-row: 2 / span 1; /* Hotels in the second row */
-    grid-column: 1/ span 1; /* Hotels in the second column */
+    grid-column: 2/ span 1; /* Hotels in the second column */
 }
 
 #content {
@@ -250,7 +250,7 @@ select,#daterange {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: auto;
-    grid-column: 2 / span 1;
+    grid-column: 1 / span 1;
     grid-row: 2/span 1;
 }
 

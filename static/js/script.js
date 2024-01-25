@@ -16,7 +16,7 @@ window.onload = function() {
                         <p></p>
                     </div>
                     <div class="price">
-                        $${hotel[1]} per night
+                        €${hotel[1]} pe noapte
                     </div>
                 </div>
             `;
