@@ -80,6 +80,5 @@ function send_data() {
     var end_location = $("#end-location").val().replaceAll(" ","+")
     var weather = $("#weather").val()
     var url = `/weather-analysis?weather_condition=${weather}&city=${end_location}&departure_location=${start_location}&start_date=${start_date}&end_date=${end_date}`
-    console.log(url)
     location.href = url
 }

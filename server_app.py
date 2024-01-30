@@ -3,11 +3,53 @@ from datetime import datetime
 import hotels as hotels_data
 from flask import jsonify
 import json
+from datetime import datetime, timedelta
 app = Flask(__name__)
 
 with open('database/weather_data.json') as f:
     weather_data = json.load(f)
 
+def find_consecutive_days_in_period(data, city, weather_condition, start_date, end_date):
+    if city not in data:
+        return []
+
+    start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+    end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+    current_datetime = start_datetime
+
+    consecutive_days = []
+    current_consecutive_days = []
+
+    while current_datetime <= end_datetime:
+        current_date_str = current_datetime.strftime("%Y-%m-%d")
+
+        # Check if the current date is in the data for the city
+        if any(entry["date"] == current_date_str for entry in data[city]):
+            # Get the weather condition for the current date
+            current_weather_condition = next(entry["weather_condition"] for entry in data[city] if entry["date"] == current_date_str)
+
+            # Check if the weather condition matches the desired condition
+            if current_weather_condition == weather_condition:
+                current_consecutive_days.append(current_date_str)
+            else:
+                # If there was a streak, save it
+                if current_consecutive_days:
+                    consecutive_days.append(current_consecutive_days)
+                current_consecutive_days = []
+
+        current_datetime += timedelta(days=1)
+
+    # Check again at the end in case the last days are consecutive
+    if current_consecutive_days:
+        consecutive_days.append(current_consecutive_days)
+
+    # Find the longest consecutive streak
+    print(consecutive_days)
+    #if int(consecutive_days[0][1].split("-")[2])+2 == int(consecutive_days[1][0].split("-")[2]):
+    #    return [consecutive_days[0][0],consecutive_days[1][0]]
+    #else:
+    longest_streak = max(consecutive_days, key=len, default=[])
+    return longest_streak
 
 def find_preferred_weather_period(city, duration, desired_condition):
     city_weather = weather_data.get(city, [])
@@ -92,8 +134,17 @@ def get_weather_analysis():
     if not city or not start_date or not end_date or not departure_location or not weather_condition:
         return render_template('/tripsync-ro-website/index.html')
         #return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția ""meteorologică dorită.")
-    weather_info = analyze_weather(city, start_date, end_date, weather_condition)
+    #weather_info = analyze_weather(city, start_date, end_date, weather_condition)
+    hotels = hotels_data.get_data(city)
+    date_vreme = find_consecutive_days_in_period(weather_data,city,weather_condition,start_date,end_date)
 
+    if len(date_vreme) > 1:
+        return render_template('/tripsync-ro-website/date.html',hotels=hotels,departure_location=departure_location, destination_city=city,start_date=date_vreme[0],end_date=date_vreme[len(date_vreme)-1])
+    elif len(date_vreme) == 1:
+        return render_template('/tripsync-ro-website/date.html',hotels=hotels,departure_location=departure_location, destination_city=city,start_date=date_vreme[0],end_date=date_vreme[0])
+    else:
+        return render_template('/tripsync-ro-website/date.html',hotels=hotels,departure_location=departure_location, destination_city=city,start_date=date_vreme,end_date=date_vreme)
+    '''
     if weather_info:
         weather_info['departure_location'] = departure_location # Adaugă locația de plecare la răspuns
         weather_info['destination_city'] = city # Adaugă orașul destinație la răspuns
@@ -113,7 +164,7 @@ def get_weather_analysis():
         return render_template('/tripsync-ro-website/date.html',hotels=hotels,alternative_period=alt_period,departure_location=weather_info['departure_location'], destination_city=weather_info['destination_city'],start_date=start_date,end_date=end_date)
     else:
         return "Nu s-au găsit date pentru perioada sau condiția meteorologică specificată."
-
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)

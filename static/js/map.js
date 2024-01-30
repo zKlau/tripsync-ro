@@ -73,8 +73,10 @@ function renderMap() {
         });
         if(selectingCity == 0) {
             $("#start-location").val(city.name)
+            selectingCity = 1
         } else {
             $("#end-location").val(city.name)
+            selectingCity = 0
         }
         //alert("You clicked on " + city.name + " " + index + " " + selectingCity);
         // You can customize the interaction here, for example, open a modal or show additional information.
