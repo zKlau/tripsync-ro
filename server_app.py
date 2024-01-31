@@ -44,7 +44,7 @@ def find_consecutive_days_in_period(data, city, weather_condition, start_date, e
         consecutive_days.append(current_consecutive_days)
 
     # Find the longest consecutive streak
-    print(consecutive_days)
+    print(consecutive_days, city, weather_condition, start_date, end_date)
     #if int(consecutive_days[0][1].split("-")[2])+2 == int(consecutive_days[1][0].split("-")[2]):
     #    return [consecutive_days[0][0],consecutive_days[1][0]]
     #else:
@@ -135,7 +135,8 @@ def get_weather_analysis():
         return render_template('/tripsync-ro-website/index.html')
         #return ("Te rog să specifici orașul, perioada (start_date, end_date), locația de plecare și condiția ""meteorologică dorită.")
     #weather_info = analyze_weather(city, start_date, end_date, weather_condition)
-    hotels = hotels_data.get_data(city)
+    #hotels = hotels_data.get_data(city)
+    hotels = None
     date_vreme = find_consecutive_days_in_period(weather_data,city,weather_condition,start_date,end_date)
 
     if len(date_vreme) > 1:

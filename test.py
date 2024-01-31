@@ -49,10 +49,10 @@ def main():
         weather_data = json.load(file)
 
     # Specify city, weather_condition, and period
-    city_to_check = "Alba Iulia"
+    city_to_check = "Bistrita"
     weather_condition_to_find = "Clear"
-    start_date = "2024-01-08"
-    end_date = "2024-01-06"
+    start_date = "2024-01-09"
+    end_date = "2024-01-30"
 
     # Find consecutive days with the specified weather condition in the given period
     result = find_consecutive_days_in_period(weather_data, city_to_check, weather_condition_to_find, start_date, end_date)

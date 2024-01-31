@@ -73,6 +73,11 @@ function add_locations() {
 }
 
 function send_data() {
+    $(".loading-container").show()
+    $(".flatpickr-calendar").hide()
+    $("#hotels").hide()
+    $("#travel_stats").hide()
+    $("#map").hide();
     var date = $('#daterange').data('daterangepicker')
     var start_date = date.startDate.format('YYYY-MM-DD')
     var end_date = date.endDate.format('YYYY-MM-DD')

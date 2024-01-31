@@ -100,8 +100,11 @@
 </style>
 
     <div id="content">
-
-
+        <div class="loading-container">
+            <div class="loading-text">Se cauta....</div>
+            <div class="loader"></div>
+            <br><br><br><br><br>
+        </div>
         <div id="map" ></div>
         <div id="date_range" ></div>
         <div id="hotels"></div>
@@ -179,7 +182,7 @@
         dateFormat: "Y-m-d",
         
     })
-
+    $(".loading-container").hide()
 </script>
 </body>
 </html>
